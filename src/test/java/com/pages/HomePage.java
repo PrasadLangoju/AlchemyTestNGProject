@@ -5,11 +5,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class HomePage extends BaseClass {
     WebDriver driver=null;
-    public HomePage() {
+    //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+    public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver,this);
     }
@@ -50,6 +57,18 @@ public class HomePage extends BaseClass {
     @FindBy (xpath ="//span[text()='Cancel']")
     WebElement cancelButton;
 
+    @FindBy (xpath="//div[text()=' My Team ']")
+    WebElement myTeam;
+
+    @FindBy(xpath="//span[text()='Licensing']")
+    WebElement licenceTab;
+
+    @FindBy(xpath="//td[@class=\"mat-mdc-cell mdc-data-table__cell cdk-cell cdk-column-validFrom mat-column-validFrom ng-star-inserted\"]")
+    WebElement validFrom;
+
+    @FindBy(xpath="//td[@class=\"mat-mdc-cell mdc-data-table__cell cdk-cell cdk-column-validTo mat-column-validTo ng-star-inserted\"]")
+    WebElement validTo;
+
 
 
     //Action methods
@@ -85,5 +104,17 @@ public class HomePage extends BaseClass {
         Thread.sleep(000);
         cancelButton.click();
 
+    }
+    public void validateLicence() throws InterruptedException {
+        myTeam.click();
+        licenceTab.click();
+        //wait.until(ExpectedConditions.visibilityOf(validFrom));
+        Thread.sleep(3000);
+        String validFromDate = validFrom.getText();
+        System.out.println("The Valid From date is: "+validFromDate);
+        //wait.until(ExpectedConditions.visibilityOf(validTo));
+        Thread.sleep(3000);
+        String validToDate = validTo.getText();
+        System.out.println("The Valid To date is: "+validToDate);
     }
 }
