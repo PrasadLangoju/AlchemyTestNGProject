@@ -5,13 +5,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 
 public class BaseClass {
-    public static WebDriver driver;
+     public static WebDriver driver;
 
     @BeforeMethod
     public void setUp() {
@@ -29,8 +30,11 @@ public class BaseClass {
         System.out.println("Cookies are Declined");
     }
 
-//    @AfterClass
-//    public void tearDown(){
-//        driver.quit();
-//    }
+    @AfterMethod
+    public void tearDown(){
+        if (driver != null) {
+            driver.quit();
+        }
+
+    }
 }
