@@ -33,4 +33,13 @@ public class HomePageTestCases extends BaseClass {
         loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"), ConfigReader.getProperty("url"));
         homePage.validateLicence();
     }
+
+    @Test(priority =4)
+    public void validateAllLinks() throws InterruptedException {
+        LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+        HomePage homePage = PageFactory.initElements(driver, HomePage.class);
+
+        loginPage.login(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"), ConfigReader.getProperty("url"));
+        homePage.validateHyperLinks();
+    }
 }

@@ -11,9 +11,10 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class HomePage extends BaseClass {
-    WebDriver driver=null;
+   // WebDriver driver=null;
     //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     public HomePage(WebDriver driver) {
@@ -69,6 +70,8 @@ public class HomePage extends BaseClass {
     @FindBy(xpath="//td[@class=\"mat-mdc-cell mdc-data-table__cell cdk-cell cdk-column-validTo mat-column-validTo ng-star-inserted\"]")
     WebElement validTo;
 
+    @FindBy (xpath ="//a[@class='menuLink']")
+    List<WebElement> links;
 
 
     //Action methods
@@ -117,4 +120,21 @@ public class HomePage extends BaseClass {
         String validToDate = validTo.getText();
         System.out.println("The Valid To date is: "+validToDate);
     }
-}
+    public void validateHyperLinks() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfAllElements(links));
+        for(WebElement link :links){
+            String linkText=link.getText();
+            System.out.println(linkText);
+            if(linkText.equals("Community")){
+                link.click();
+                Thread.sleep(3000);
+                System.out.println("Clicked on Community link");
+                break;
+            }
+            else {
+                System.out.println("The link is not present");
+            }
+        }
+    }}
+
