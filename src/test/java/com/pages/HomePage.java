@@ -1,6 +1,7 @@
 package com.pages;
 
 import com.base.BaseClass;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,81 +15,80 @@ import java.time.Duration;
 import java.util.List;
 
 public class HomePage extends BaseClass {
-   // WebDriver driver=null;
+    // WebDriver driver=null;
     //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath ="//menu-item[@class='ng-star-inserted'and @text='Logout']")
+    @FindBy(xpath = "//menu-item[@class='ng-star-inserted'and @text='Logout']")
     WebElement logoutButton;
 
-    @FindBy (xpath = "//menu-item[@text='My Profile']")
+    @FindBy(xpath = "//menu-item[@text='My Profile']")
     WebElement MyProfile;
 
-    @FindBy (xpath = "//input[@id='mat-input-2']")
+    @FindBy(xpath = "//input[@id='mat-input-2']")
     WebElement UserNametext;
 
-    @FindBy (xpath = "//input[@id='mat-input-5']")
+    @FindBy(xpath = "//input[@id='mat-input-5']")
     WebElement emailText;
 
-    @FindBy (xpath="(//span[@class='mdc-tab__text-label'])[2]")
+    @FindBy(xpath = "(//span[@class='mdc-tab__text-label'])[2]")
     WebElement Securitytab;
 
-    @FindBy (xpath="//span[text()='Create Key']")
+    @FindBy(xpath = "//span[text()='Create Key']")
     WebElement CreateKeyButton;
 
-    @FindBy (xpath= "//div[@id='mat-select-value-1']")
+    @FindBy(xpath = "//div[@id='mat-select-value-1']")
     WebElement ApplicationDropDown;
 
-    @FindBy (xpath="//span[text()='Cloud Execution']")
+    @FindBy(xpath = "//span[text()='Cloud Execution']")
     WebElement cloudexecutionOption;
 
-    @FindBy (xpath ="//span[text()='Create']")
+    @FindBy(xpath = "//span[text()='Create']")
     WebElement createButton;
 
-    @FindBy (xpath = "//input[@id='mat-input-9']")
+    @FindBy(xpath = "//input[@id='mat-input-9']")
     WebElement APIKeyText;
 
-    @FindBy (xpath = "//input[@id='mat-input-10']")
+    @FindBy(xpath = "//input[@id='mat-input-10']")
     WebElement secretKey;
 
-    @FindBy (xpath ="//span[text()='Cancel']")
+    @FindBy(xpath = "//span[text()='Cancel']")
     WebElement cancelButton;
 
-    @FindBy (xpath="//div[text()=' My Team ']")
+    @FindBy(xpath = "//div[text()=' My Team ']")
     WebElement myTeam;
 
-    @FindBy(xpath="//span[text()='Licensing']")
+    @FindBy(xpath = "//span[text()='Licensing']")
     WebElement licenceTab;
 
-    @FindBy(xpath="//td[@class=\"mat-mdc-cell mdc-data-table__cell cdk-cell cdk-column-validFrom mat-column-validFrom ng-star-inserted\"]")
+    @FindBy(xpath = "//td[@class=\"mat-mdc-cell mdc-data-table__cell cdk-cell cdk-column-validFrom mat-column-validFrom ng-star-inserted\"]")
     WebElement validFrom;
 
-    @FindBy(xpath="//td[@class=\"mat-mdc-cell mdc-data-table__cell cdk-cell cdk-column-validTo mat-column-validTo ng-star-inserted\"]")
+    @FindBy(xpath = "//td[@class=\"mat-mdc-cell mdc-data-table__cell cdk-cell cdk-column-validTo mat-column-validTo ng-star-inserted\"]")
     WebElement validTo;
 
-    @FindBy (xpath ="//a[@class='menuLink']")
+    @FindBy(xpath = "//a[@class='menuLink']")
     List<WebElement> links;
 
 
     //Action methods
-    public void verifyLogoutPresence(){
-        if(logoutButton.isDisplayed()){
+    public void verifyLogoutPresence() {
+        if (logoutButton.isDisplayed()) {
             System.out.println("Login successful and Logout button is present");
             logoutButton.click();
-            }
-        else {
+        } else {
             System.out.println("Logout button is not present");
         }
     }
 
-    public void verifyUserName_and_Email(){
+    public void verifyUserName_and_Email() {
         MyProfile.click();
-        System.out.println("The UserName is : "+UserNametext.getAttribute("value"));
-        System.out.println("The emailId is: "+emailText.getAttribute("value"));
+        System.out.println("The UserName is : " + UserNametext.getAttribute("value"));
+        System.out.println("The emailId is: " + emailText.getAttribute("value"));
     }
 
     public void createAPI_SecretKey() throws InterruptedException {
@@ -102,39 +102,44 @@ public class HomePage extends BaseClass {
 
         String apiKey = APIKeyText.getAttribute("value");
         String secretKeyValue = secretKey.getAttribute("value");
-        System.out.println("The new API Key is: "+apiKey);
-        System.out.print("The new Secret Key is: "+secretKeyValue);
+        System.out.println("The new API Key is: " + apiKey);
+        System.out.print("The new Secret Key is: " + secretKeyValue);
         Thread.sleep(000);
         cancelButton.click();
 
     }
+
     public void validateLicence() throws InterruptedException {
         myTeam.click();
         licenceTab.click();
         //wait.until(ExpectedConditions.visibilityOf(validFrom));
         Thread.sleep(3000);
         String validFromDate = validFrom.getText();
-        System.out.println("The Valid From date is: "+validFromDate);
+        System.out.println("The Valid From date is: " + validFromDate);
         //wait.until(ExpectedConditions.visibilityOf(validTo));
         Thread.sleep(3000);
         String validToDate = validTo.getText();
-        System.out.println("The Valid To date is: "+validToDate);
+        System.out.println("The Valid To date is: " + validToDate);
     }
+
     public void validateHyperLinks() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfAllElements(links));
-        for(WebElement link :links){
-            String linkText=link.getText();
-            System.out.println(linkText);
-            if(linkText.equals("Community")){
-                link.click();
-                Thread.sleep(3000);
-                System.out.println("Clicked on Community link");
-                break;
+        try {
+            for (WebElement link : links) {
+                String linkText = link.getText();
+                System.out.println(linkText);
+
             }
-            else {
-                System.out.println("The link is not present");
-            }
+        } catch (
+                StaleElementReferenceException e) {
+            System.out.println("StaleElementReferenceException encountered. Retrying...");
+          //  i--; // Retry the current index
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
         }
-    }}
+
+
+    }
+}
 

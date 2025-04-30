@@ -27,7 +27,7 @@ public class BaseClass {
         System.out.println("Cookies are Declined");
     }
 
-    @AfterMethod
+  //  @AfterMethod
     public void tearDown(){
         if (driver != null) {
             driver.quit();
